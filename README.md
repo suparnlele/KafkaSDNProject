@@ -33,7 +33,9 @@ $ bin/kafka-server-start.sh config/server.properties
 ```
 
 ### Step 4 – Create a Topic in Kafka
-bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic testTopic
+```bash
+$ bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic testTopic
+```
 The replication-factor describes how many copies of data will be created. As we are running with single instance keep this value 1.
 
 Set the partitions options as the number of brokers you want your data to be split between. As we are running with a single broker keep this value 1.
@@ -44,7 +46,7 @@ $ bin/kafka-topics.sh --list --zookeeper localhost:2181
 ```
 
 ### Step 5 – Send Messages to Kafka
-The “producer” is the process responsible for put data into our Kafka. The Kafka comes with a command line client that will take input from a file or from standard input and send it out as messages to the Kafka cluster. The default Kafka send each line as a separate message.
+The **producer** is the process responsible for put data into our Kafka. The Kafka comes with a command line client that will take input from a file or from standard input and send it out as messages to the Kafka cluster. The default Kafka send each line as a separate message.
 
 Let’s run the producer and then type a few messages into the console to send to the server.
 ```bash
@@ -60,17 +62,26 @@ $ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic testTo
 
 
 
-
 # Install Elastic search on ubuntu
 ## 1.Dependencies
-First, update the list of available packages by running apt-get update.
+First, update the list of available packages by running  the given below command 
+```bash
+$ apt-get update.
+```
+
 Install the OpenJDK runtime supplied by Ubuntu.
 
 ### OpenJDK
-To accomplish the first option, we can simply run apt-get install openjdk-6-jre.
+To accomplish the first option, we can simply run 
+```bash
+$ apt-get install openjdk-6-jre.
+```
 
 ### Test your Java installation
-You can then check that Java is installed by running java -version.
+You can then check that Java is installed by running the command 
+```bash
+$ java -version.
+```
 
 That’s all the dependencies we need for now, so let’s get started with obtaining and installing Elasticsearch.
 
@@ -89,20 +100,21 @@ $ unzip elasticsearch-0.90.7.zip
 ## Configuration files
 If installed from the zip, configuration files are found in the config folder of the resulting directory.
 
-In either case, there will be two main configuration files: elasticsearch.yml and logging.yml. The first configures the Elasticsearch server settings, and the latter, unsurprisingly, the logger settings used by Elasticsearch.
+In either case, there will be two main configuration files: **elasticsearch.yml** and **logging.yml**. The first configures the Elasticsearch server settings, and the latter, unsurprisingly, the logger settings used by Elasticsearch.
 
-“elasticsearch.yml” will, by default, contain nothing but comments.
+***elasticsearch.yml*** will, by default, contain nothing but comments.
 
-“logging.yml” provides configuration for basic logging. You can find the resulting logs in /var/log/elasticsearch.
+***logging.yml*** provides configuration for basic logging. You can find the resulting logs in /var/log/elasticsearch.
 
 ## Remove Elasticsearch Public Access
-Before continuing, you will want to configure Elasticsearch so it is not accessible to the public Internet–Elasticsearch has no built-in security and can be controlled by anyone who can access the HTTP API. This can be done by editing elasticsearch.yml. Assuming you installed with the package, open the configuration with this command:
+Before continuing, you will want to configure Elasticsearch so it is not accessible to the public Internet–Elasticsearch has no built-in security and can be controlled by anyone who can access the HTTP API. This can be done by editing **elasticsearch.yml**. Assuming you installed with the package, open the configuration with this command:
 
 ```bash
 $ sudo vi /etc/elasticsearch/elasticsearch.yml
 ```
 
 Then find the line that specifies network.bind_host, then uncomment it and change the value to localhost so it looks like the following:
+
 ```bash
 network.bind_host: localhost
 ```
@@ -157,9 +169,9 @@ You can restart the server with the corresponding service elasticsearch start.
 Elasticsearch is up and running. Now, we’ll go over some basic configuration and usage.
 
 ### Basic configuration
-Configuration files are found in the config folder inside the resulting directory.The two configuration files you will find are elasticsearch.yml and logging.yml. The first is a general Elasticsearch configuration. The provided file contains nothing but comments, so default settings are used. None of the settings are necessary. You can work with Elasticsearch without doing any of the following, but it’ll be a raw development environment.
+Configuration files are found in the config folder inside the resulting directory.The two configuration files you will find are **elasticsearch.yml** and **logging.yml**. The first is a general Elasticsearch configuration. The provided file contains nothing but comments, so default settings are used. None of the settings are necessary. You can work with Elasticsearch without doing any of the following, but it’ll be a raw development environment.
 
-The setting “cluster.name” is the method by which Elasticsearch provides auto-discovery. What this means is that if a group of Elasticsearch servers on the same network share the same cluster name, they will automatically discover each other. This is how simple it is to scale Elasticsearch, but be aware that if you keep the default cluster name and there are other Elasticsearch servers on your network that are not under your control, you are likely to wind up in a bad state.
+The setting **cluster.name** is the method by which Elasticsearch provides auto-discovery. What this means is that if a group of Elasticsearch servers on the same network share the same cluster name, they will automatically discover each other. This is how simple it is to scale Elasticsearch, but be aware that if you keep the default cluster name and there are other Elasticsearch servers on your network that are not under your control, you are likely to wind up in a bad state.
 
 ### Basic usage
 Let’s add some data to our Elasticsearch install. Elasticsearch uses a RESTful API, which responds to the usual CRUD commands: Create, Read, Update, and Destroy.
@@ -189,7 +201,7 @@ Success! We’ve added to and queried data in Elasticsearch.
 ```
 One thing to note is that we can get nicer output by appending ?pretty=true to the query. Let’s give this a try
 ```bash
-curl -X GET 'http://localhost:9200/tutorial/helloworld/1?pretty=true'
+$ curl -X GET 'http://localhost:9200/tutorial/helloworld/1?pretty=true'
 ```
 Which should respond with
 ```
